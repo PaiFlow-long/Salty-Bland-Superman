@@ -171,9 +171,13 @@ rand = lcg(seed)                                // 线性同余
 
 点「生成分享卡」，用 **Canvas** 现场画出一张 `1080 × 1560` 的竖版卡片（朋友圈 / 故事尺寸友好），包含：
 
-品牌徽标 → 标题与日期 → 类型 emoji 与名称 → 咸度条 → 情绪正负 → 日期语境评价（若有）→ 今日宜 / 今日忌 → 幸运物 → 彩蛋 → 页脚。
+品牌徽标 → 标题与日期 → 类型 emoji 与名称 → 咸度条 → 情绪正负 → 日期语境评价（若有）→ 今日宜 / 今日忌 → 幸运物 → 彩蛋 → 页脚 + 右下角二维码。
 
 可直接「保存图片」（导出 PNG）。全程本地生成，不上传服务器。
+
+卡片右下角有一个指向本站的二维码（`assets/qrcode.png`），扫码即可打开 https://salty-bland-superman.pages.dev。
+
+> **换域名时**：二维码是静态图片，改域名后需重新生成，命令见下方「重新生成二维码」。
 
 ---
 
@@ -181,14 +185,40 @@ rand = lcg(seed)                                // 线性同余
 
 ```
 Salty-Bland Superman/
-├── index.html      # 全部逻辑（单文件应用，原生 JS + 内联 CSS）
+├── index.html          # 全部逻辑（单文件应用，原生 JS + 内联 CSS）
 ├── assets/
-│   └── logo.png    # 品牌形象图（透明背景）
+│   ├── logo.png        # 品牌形象图（透明背景）
+│   ├── qrcode.png      # 站点二维码（分享卡右下角）
+│   ├── favicon.ico     # 标签页图标
+│   ├── icon-180.png    # iOS 主屏图标
+│   ├── icon-192.png    # PWA / 分享预览图
+│   └── icon-512.png
 ├── README.md
-├── DEPLOY.md       # 部署指南（GitHub + Cloudflare Pages）
+├── DEPLOY.md           # 部署指南（GitHub + Cloudflare Pages）
 ├── LICENSE
 ├── .gitignore
 └── .gitattributes
+```
+
+### 重新生成二维码
+
+换了域名后，用任意二维码工具重新生成并覆盖 `assets/qrcode.png` 即可（尺寸、容错等级 M 即可，注意保留四周静区）。
+
+---
+
+## 重新生成站点图标
+
+`assets/` 下的图标都由 `assets/logo.png` 派生。若换了 logo，重跑一遍即可：
+
+```bash
+python - <<'PY'
+from PIL import Image
+im = Image.open('assets/logo.png').convert('RGBA')
+im.resize((32,32), Image.LANCZOS).save('assets/favicon.ico',
+    sizes=[(16,16),(32,32),(48,48)], bitmap_format='png')
+for s in (180,192,512):
+    im.resize((s,s), Image.LANCZOS).save(f'assets/icon-{s}.png')
+PY
 ```
 
 ---
@@ -205,6 +235,14 @@ python -m http.server 8080
 ```
 
 > 注意：分享卡的品牌徽标走相对路径 `assets/logo.png`，请保持目录结构完整（不要只单独拷贝 `index.html`）。徽标加载失败时会自动回退到内联手绘图标，功能不受影响。
+
+---
+
+## 在线体验
+
+**https://salty-bland-superman.pages.dev**
+
+分享卡右下角有二维码，扫码即可打开本站。
 
 ---
 

@@ -6,8 +6,13 @@
 <title>咸淡超人 · 今日你是咸人还是淡人？</title>
 <meta name="description" content="1 分钟测今日咸淡：答 5 道核心题，得到一张带宜忌、幸运物、彩蛋的今日状态卡。" data-page-node-id="rgcxvhysdu9fQJmY3iLlyi" />
 <meta name="theme-color" content="#FFF7EC" data-page-node-id="A04h7ddo1qS7tTUO7iFjKH" />
+<link rel="icon" href="assets/favicon.ico" sizes="any" />
+<link rel="icon" type="image/png" href="assets/icon-192.png" />
+<link rel="apple-touch-icon" href="assets/icon-180.png" />
 <meta property="og:title" content="咸淡超人" data-page-node-id="DQmEtfunVyk04k6R3ZWi9u" />
 <meta property="og:description" content="1 分钟测今日咸淡，看看今天你是淡人还是咸人。" data-page-node-id="KvXUWkuAH4e8YDB7rCWUDl" />
+<meta property="og:image" content="assets/icon-512.png" />
+<meta name="twitter:card" content="summary" />
 <style>
   :root{
     --red:#E8482B;      /* 苹果红 */
@@ -460,6 +465,22 @@ function ensureLogo(cb){
     logoImg.addEventListener('error',cb,{once:true});
   }
 }
+
+// 站点二维码（分享卡右下角）。静态预生成图，加载失败则不绘制。
+const QR_SRC='assets/qrcode.png';
+let qrImg=null, qrReady=false;
+function ensureQR(cb){
+  if(qrReady){ cb(); return; }
+  if(!qrImg){
+    qrImg=new Image();
+    qrImg.onload=()=>{ qrReady=true; cb(); };
+    qrImg.onerror=()=>{ cb(); };
+    qrImg.src=QR_SRC;
+  }else{
+    qrImg.addEventListener('load',cb,{once:true});
+    qrImg.addEventListener('error',cb,{once:true});
+  }
+}
 function logoTag(cls){
   return `<img class="${cls}" src="${LOGO_SRC}" alt="咸淡超人" onerror="this.style.display='none'">`;
 }
@@ -569,7 +590,7 @@ function drawBadge(x,cx,cy,r){
 }
 function makeShareCard(){
   const r=lastResult; if(!r) return;
-  ensureLogo(()=>{
+  ensureLogo(()=>ensureQR(()=>{
     const W=1080, pad=60, contentW=W-pad*2, H=1560;
     const cv=document.createElement('canvas'); cv.width=W; cv.height=H;
     const x=cv.getContext('2d');
@@ -634,11 +655,19 @@ function makeShareCard(){
       }else line=test;
     }
     if(line) x.fillText(line, first?pad+preW:pad, yy);
-    // 页脚
-    x.textAlign='center'; x.font=font(26); x.fillStyle=ink;
-    x.fillText('PaiFlow 苹果派 · paiflow.pages.dev', W/2, H-54);
+    // 右下角二维码（白底留边，保证可扫）
+    if(qrImg && qrImg.naturalWidth){
+      const qs=170, qx=W-pad-qs-8, qy=H-72-qs;
+      x.fillStyle='#fff'; x.fillRect(qx-10, qy-10, qs+20, qs+20);
+      x.drawImage(qrImg, qx, qy, qs, qs);
+    }
+    // 页脚（左对齐，给右侧二维码让位）
+    x.textAlign='left'; x.textBaseline='middle'; x.font=font(26); x.fillStyle=ink;
+    x.fillText('PaiFlow 苹果派', pad, H-74);
+    x.fillStyle=sub; x.font=font(22);
+    x.fillText('salty-bland-superman.pages.dev', pad, H-42);
     showCardModal(cv);
-  });
+  }));
 }
 function showCardModal(cv){
   let m=document.getElementById('cardModal');
