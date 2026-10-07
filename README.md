@@ -180,12 +180,15 @@ rand = lcg(seed)                                // 线性同余
 ## 目录结构
 
 ```
-xiandan-superman/
+Salty-Bland Superman/
 ├── index.html      # 全部逻辑（单文件应用，原生 JS + 内联 CSS）
 ├── assets/
-│   └── logo.png    # 品牌形象徽标
+│   └── logo.png    # 品牌形象图（透明背景）
 ├── README.md
-└── LICENSE
+├── DEPLOY.md       # 部署指南（GitHub + Cloudflare Pages）
+├── LICENSE
+├── .gitignore
+└── .gitattributes
 ```
 
 ---
@@ -215,13 +218,15 @@ python -m http.server 8080
 2. 把整个项目文件夹（`index.html` + `assets/`）拖进去。
 3. 部署完成，得到形如 `https://<项目名>.pages.dev` 的地址。
 
-**方式 B：连接 GitHub 仓库（可自动更新）**
+**方式 B：连接 GitHub 仓库（可自动更新，推荐）**
 
 1. 新建一个 GitHub 仓库，把本项目提交上去。
-2. Cloudflare Pages → **Connect to Git** → 选择该仓库 → 构建命令留空 / 输出目录填 `/`（纯静态，无需构建）。
+2. Cloudflare Pages → **Connect to Git** → 选择该仓库 → 框架预设 `None`、**构建命令留空**、输出目录填 `/`（纯静态，无需构建）。
 3. 之后每次 push 会自动重新部署。
 
-> 本项目是独立项目，建议单独建库，不要和个人主站的仓库混在一起。
+> 详细的逐步操作见 **[DEPLOY.md](./DEPLOY.md)**。
+
+> 本项目是独立项目，使用单独仓库 `Salty-Bland Superman`，不与个人主站仓库混在一起。
 
 ---
 
