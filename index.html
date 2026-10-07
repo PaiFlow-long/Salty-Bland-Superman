@@ -1,0 +1,660 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-page-node-id="fF0KKjbeQwjazFmF6oRHdW">
+<head data-page-node-id="Bjo9zqkIY8luAZLYIiUwim">
+<meta charset="UTF-8" data-page-node-id="YGCiXb0igzEzfQV4ssx7ez" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" data-page-node-id="XBcDaZDsgRmrADIzSis5CJ" />
+<title>咸淡超人 · 今日你是咸人还是淡人？</title>
+<meta name="description" content="1 分钟测今日咸淡：答 5 道核心题，得到一张带宜忌、幸运物、彩蛋的今日状态卡。" data-page-node-id="rgcxvhysdu9fQJmY3iLlyi" />
+<meta name="theme-color" content="#FFF7EC" data-page-node-id="A04h7ddo1qS7tTUO7iFjKH" />
+<meta property="og:title" content="咸淡超人" data-page-node-id="DQmEtfunVyk04k6R3ZWi9u" />
+<meta property="og:description" content="1 分钟测今日咸淡，看看今天你是淡人还是咸人。" data-page-node-id="KvXUWkuAH4e8YDB7rCWUDl" />
+<style>
+  :root{
+    --red:#E8482B;      /* 苹果红 */
+    --gold:#E0A458;     /* 派皮金 */
+    --cream:#FFF3DF;    /* 奶油白 */
+    --bg:#FFF7EC;       /* 暖奶油底 */
+    --ink:#2A2118;      /* 暖黑，描边用 */
+    --shadow:6px 6px 0 var(--ink);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{height:100%}
+  body{
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;
+    background:var(--bg);
+    color:var(--ink);
+    display:flex;align-items:center;justify-content:center;
+    padding:24px;line-height:1.6;
+  }
+  .card{
+    width:100%;max-width:560px;
+    background:var(--cream);
+    border:3px solid var(--ink);
+    border-radius:18px;
+    box-shadow:var(--shadow);
+    padding:28px 26px;
+    position:relative;
+  }
+  .logo{display:flex;align-items:center;gap:12px;margin-bottom:6px}
+  .logo img{width:52px;height:auto;flex:0 0 auto;display:block}
+  h1{font-size:28px;letter-spacing:1px}
+  .sub{font-size:14px;color:#7a6a55;margin:6px 0 18px}
+  .q-title{font-size:20px;font-weight:700;margin-bottom:4px}
+  .q-hint{font-size:13px;color:#9a8a72;margin-bottom:16px}
+  .opts{display:flex;flex-direction:column;gap:12px}
+  .opt{
+    text-align:left;
+    background:#fff;
+    border:3px solid var(--ink);
+    border-radius:14px;
+    padding:14px 16px;
+    font-size:16px;
+    cursor:pointer;
+    box-shadow:4px 4px 0 var(--ink);
+    transition:transform .06s ease, box-shadow .06s ease;
+    color:var(--ink);
+  }
+  .opt:hover{transform:translate(-2px,-2px);box-shadow:6px 6px 0 var(--ink)}
+  .opt:active{transform:translate(2px,2px);box-shadow:2px 2px 0 var(--ink)}
+  .btn{
+    display:inline-block;margin-top:8px;
+    background:var(--red);color:#fff;
+    border:3px solid var(--ink);border-radius:14px;
+    padding:14px 22px;font-size:17px;font-weight:700;
+    cursor:pointer;box-shadow:4px 4px 0 var(--ink);
+    transition:transform .06s ease, box-shadow .06s ease;
+  }
+  .btn:hover{transform:translate(-2px,-2px);box-shadow:6px 6px 0 var(--ink)}
+  .btn:active{transform:translate(2px,2px);box-shadow:2px 2px 0 var(--ink)}
+  .btn.gold{background:var(--gold)}
+  .btn.ghost{background:#fff;color:var(--ink)}
+  .row{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-top:18px}
+  .btn-wrap{display:flex;justify-content:center;margin-top:8px}
+  .progress{height:10px;background:#fff;border:2px solid var(--ink);border-radius:99px;overflow:hidden;margin-bottom:20px}
+  .progress > i{display:block;height:100%;background:var(--gold);transition:width .25s ease}
+  /* result */
+  .type-emoji{font-size:54px;line-height:1;text-align:center;margin:6px 0}
+  .type-name{text-align:center;font-size:26px;font-weight:800;color:var(--red);margin-bottom:2px}
+  .type-band{text-align:center;font-size:13px;color:#7a6a55;margin-bottom:16px}
+  .meter{margin:14px 0}
+  .meter .lab{display:flex;justify-content:space-between;font-size:13px;color:#7a6a55;margin-bottom:4px}
+  .bar{height:18px;background:#fff;border:2px solid var(--ink);border-radius:99px;overflow:hidden;position:relative}
+  .bar > i{display:block;height:100%;background:linear-gradient(90deg,var(--gold),var(--red))}
+  .bar .mid{position:absolute;top:-3px;bottom:-3px;width:2px;background:var(--ink);left:50%}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:16px 0}
+  .box{background:#fff;border:3px solid var(--ink);border-radius:14px;padding:12px 14px}
+  .box h3{font-size:14px;margin-bottom:6px}
+  .box.yi h3{color:#2e8b57}
+  .box.ji h3{color:var(--red)}
+  .box ul{margin-left:18px;font-size:14px}
+  .diag{background:#fff;border:3px solid var(--ink);border-radius:14px;padding:14px 16px;font-size:15px;margin:14px 0}
+  .date-flavor{background:var(--cream);border:3px solid var(--gold);border-radius:14px;padding:12px 16px;font-size:14px;margin:14px 0;color:#7a5a2a;line-height:1.55}
+  .meta{font-size:14px;margin:6px 0}
+  .meta b{color:var(--red)}
+  .egg{font-size:14px;color:var(--ink);margin-top:10px}
+  .foot{margin-top:18px;font-size:12px;color:#b0a18c;text-align:center}
+  .modal{position:fixed;inset:0;display:none;align-items:center;justify-content:center;z-index:50;padding:16px}
+  .modal.show{display:flex}
+  .modal-bg{position:absolute;inset:0;background:rgba(42,33,24,.55)}
+  .modal-card{position:relative;background:var(--cream);border:3px solid var(--ink);border-radius:18px;padding:18px;max-width:380px;width:100%;box-shadow:8px 8px 0 var(--ink);text-align:center}
+  .card-img{margin-bottom:14px}
+  .card-img canvas{width:100%;height:auto;border-radius:12px;display:block}
+</style>
+</head>
+<body data-page-node-id="7MbIzxTsWI8Q3M8siLP30I">
+<div class="card" id="app" data-page-node-id="0LD7E5VZfiCh61LL8iYYih"></div>
+
+<script>
+/* ============================================================
+   咸淡超人 · 今日你是咸人还是淡人？
+   一个 1 分钟测「今日状态」的小工具：
+   答 5 道核心题（视情况加问 1–3 道），结合日期先验，
+   得到一张「今日状态卡」——七维状态 → 咸度 × 情绪正负 → 12 主类型，
+   附今日宜忌、幸运物、彩蛋，并可生成分享卡。
+
+   技术：原生 HTML / CSS / JS，无框架、无构建、无后端。
+   所有数据只在你的浏览器里计算，不上传、不留痕。
+   完整赋分规则与项目说明见仓库 README.md。
+   ============================================================ */
+
+/* ---------- ① 模型常量 ---------- */
+// 七维基线 = 中性（50）；全 50 时为「温吞人」，淡 / 咸是往两侧的偏离。M（情绪）以 0 为中性。
+const BASE = { E:50, W:50, L:50, S:50, C:50, R:50, M:0 };
+
+// 咸度 = 唤醒 / 激活强度（越高越想动、越坐不住）。维度代号：
+// E 能量 / W 意愿 / L 负荷 / S 社交 / C 掌控 / R 躁度 / M 情绪。
+// 语义：淡 = 低参与（低意愿 / 低负荷 / 低社交 / 低能量），咸 = 高唤醒 / 高驱动（含正向「清咸」与负向「燥咸 / 炸咸」）。
+const WEIGHT_S = { E:0.18, W:0.10, L:0.28, R:0.24, S:0.11, C:0.05, M:0.04 };
+// 情绪正负 = 效价方向（正 = 好，负 = 差）：情绪（M）主导，躁度（R）/ 负荷（L）拉向负向。
+const WEIGHT_V = { M:0.50, C:0.15, S:0.10, R:-0.30, L:-0.10 };
+
+// 周几先验咸度（0=周日 … 6=周六）：周一第二淡；周一→周五渐升；周六周内最咸；周日回落≈周三水平。
+const DATE_PRIOR = { 0:50, 1:38, 2:44, 3:50, 4:56, 5:62, 6:68 };
+// 特殊日期先验（按年存储：2026 与 2027 的清明 / 端午 / 中秋落点不同，MM-DD 会冲突）。
+// kind：pre 节前 / holiday 假期当天 / lastday 假期最后一天 / post 节后首工作日 / makeup 调休补班。
+// s 为先验咸度：节前 74（最咸）/ 节后 30（最淡）/ 补班 38 / 假期当天 44 / 假期最后一天 46。
+// 数据来源：2026 依据《国务院办公厅 2026 年放假安排通知》官方口径；2027 按现行放假办法推算。
+// 注：2027 的调休补班日官方通知约于 2026 年底发布，届时补入。
+const SPECIAL = {
+  '2026':{
+    '12-31':{s:74,n:'元旦前',kind:'pre'}, '02-14':{s:74,n:'春节前',kind:'pre'}, '04-03':{s:74,n:'清明前',kind:'pre'},
+    '04-30':{s:74,n:'劳动前',kind:'pre'}, '06-18':{s:74,n:'端午前',kind:'pre'}, '09-24':{s:74,n:'中秋前',kind:'pre'}, '09-30':{s:74,n:'国庆前',kind:'pre'},
+    '01-04':{s:30,n:'元旦后',kind:'post'}, '02-24':{s:30,n:'春节后',kind:'post'}, '04-07':{s:30,n:'清明后',kind:'post'},
+    '05-06':{s:30,n:'劳动后',kind:'post'}, '06-22':{s:30,n:'端午后',kind:'post'}, '09-28':{s:30,n:'中秋后',kind:'post'}, '10-08':{s:30,n:'国庆后',kind:'post'},
+    '02-28':{s:38,n:'补班',kind:'makeup'}, '05-09':{s:38,n:'补班',kind:'makeup'}, '09-20':{s:38,n:'补班',kind:'makeup'}, '10-10':{s:38,n:'补班',kind:'makeup'},
+    '01-01':{s:44,n:'元旦',kind:'holiday'}, '01-02':{s:44,n:'元旦',kind:'holiday'}, '01-03':{s:46,n:'元旦最后一天',kind:'lastday'},
+    '02-15':{s:44,n:'春节',kind:'holiday'}, '02-16':{s:44,n:'春节',kind:'holiday'}, '02-17':{s:44,n:'春节',kind:'holiday'}, '02-18':{s:44,n:'春节',kind:'holiday'}, '02-19':{s:44,n:'春节',kind:'holiday'}, '02-20':{s:44,n:'春节',kind:'holiday'}, '02-21':{s:44,n:'春节',kind:'holiday'}, '02-22':{s:44,n:'春节',kind:'holiday'}, '02-23':{s:46,n:'春节最后一天',kind:'lastday'},
+    '04-04':{s:44,n:'清明',kind:'holiday'}, '04-05':{s:44,n:'清明',kind:'holiday'}, '04-06':{s:46,n:'清明最后一天',kind:'lastday'},
+    '05-01':{s:44,n:'劳动',kind:'holiday'}, '05-02':{s:44,n:'劳动',kind:'holiday'}, '05-03':{s:44,n:'劳动',kind:'holiday'}, '05-04':{s:44,n:'劳动',kind:'holiday'}, '05-05':{s:46,n:'劳动最后一天',kind:'lastday'},
+    '06-19':{s:44,n:'端午',kind:'holiday'}, '06-20':{s:44,n:'端午',kind:'holiday'}, '06-21':{s:46,n:'端午最后一天',kind:'lastday'},
+    '09-25':{s:44,n:'中秋',kind:'holiday'}, '09-26':{s:44,n:'中秋',kind:'holiday'}, '09-27':{s:46,n:'中秋最后一天',kind:'lastday'},
+    '10-01':{s:44,n:'国庆',kind:'holiday'}, '10-02':{s:44,n:'国庆',kind:'holiday'}, '10-03':{s:44,n:'国庆',kind:'holiday'}, '10-04':{s:44,n:'国庆',kind:'holiday'}, '10-05':{s:44,n:'国庆',kind:'holiday'}, '10-06':{s:44,n:'国庆',kind:'holiday'}, '10-07':{s:46,n:'国庆最后一天',kind:'lastday'},
+  },
+  '2027':{
+    '01-04':{s:30,n:'元旦后',kind:'post'}, '02-04':{s:74,n:'春节前',kind:'pre'}, '04-02':{s:74,n:'清明前',kind:'pre'},
+    '04-30':{s:74,n:'劳动前',kind:'pre'}, '05-06':{s:30,n:'劳动后',kind:'post'}, '06-08':{s:74,n:'端午前',kind:'pre'}, '06-10':{s:30,n:'端午后',kind:'post'},
+    '09-14':{s:74,n:'中秋前',kind:'pre'}, '09-16':{s:30,n:'中秋后',kind:'post'}, '09-30':{s:74,n:'国庆前',kind:'pre'}, '10-08':{s:30,n:'国庆后',kind:'post'},
+    '12-31':{s:74,n:'元旦前',kind:'pre'},
+    '01-01':{s:44,n:'元旦',kind:'holiday'}, '01-02':{s:44,n:'元旦',kind:'holiday'}, '01-03':{s:46,n:'元旦最后一天',kind:'lastday'},
+    '02-05':{s:44,n:'春节',kind:'holiday'}, '02-06':{s:44,n:'春节',kind:'holiday'}, '02-07':{s:44,n:'春节',kind:'holiday'}, '02-08':{s:44,n:'春节',kind:'holiday'}, '02-09':{s:44,n:'春节',kind:'holiday'}, '02-10':{s:44,n:'春节',kind:'holiday'}, '02-11':{s:44,n:'春节',kind:'holiday'}, '02-12':{s:44,n:'春节',kind:'holiday'}, '02-13':{s:46,n:'春节最后一天',kind:'lastday'},
+    '04-03':{s:44,n:'清明',kind:'holiday'}, '04-04':{s:44,n:'清明',kind:'holiday'}, '04-05':{s:46,n:'清明最后一天',kind:'lastday'},
+    '05-01':{s:44,n:'劳动',kind:'holiday'}, '05-02':{s:44,n:'劳动',kind:'holiday'}, '05-03':{s:44,n:'劳动',kind:'holiday'}, '05-04':{s:44,n:'劳动',kind:'holiday'}, '05-05':{s:46,n:'劳动最后一天',kind:'lastday'},
+    '06-09':{s:44,n:'端午',kind:'holiday'},
+    '09-15':{s:44,n:'中秋',kind:'holiday'},
+    '10-01':{s:44,n:'国庆',kind:'holiday'}, '10-02':{s:44,n:'国庆',kind:'holiday'}, '10-03':{s:44,n:'国庆',kind:'holiday'}, '10-04':{s:44,n:'国庆',kind:'holiday'}, '10-05':{s:44,n:'国庆',kind:'holiday'}, '10-06':{s:44,n:'国庆',kind:'holiday'}, '10-07':{s:46,n:'国庆最后一天',kind:'lastday'},
+  },
+};
+
+/* ---------- ② 题库：5 道核心题 + 条件追问 ---------- */
+// 每个选项的 d 为该维度增量；维度代号 E 能量 / W 意愿 / L 负荷 / S 社交 / M 情绪 / C 掌控 / R 躁度。
+// E/W/L/S/C/R 取值 0~100，M 取值 -100~100。
+const QUESTIONS = [
+  { id:'sleep', title:'昨晚睡得怎么样？', hint:'能量底色，决定今天起手是满电还是低电。',
+    opts:[
+      { t:'倒头就睡，一觉到天亮', d:{E:18,M:8} },
+      { t:'还行，正常入睡',       d:{E:6,M:3} },
+      { t:'翻来覆去，睡不踏实',   d:{E:-12,M:-8,R:10} },
+      { t:'几乎没睡',             d:{E:-20,M:-14,R:18} },
+    ]},
+  { id:'work', title:'今天工作或学习上有什么安排？', hint:'事情越满越「咸」，越空越能「淡」。',
+    opts:[
+      { t:'没安排，自由发挥',         d:{L:-15,C:8,W:5} },
+      { t:'比较轻松，几件小事',       d:{L:-6,C:4,W:3} },
+      { t:'正常节奏，不好不坏',       d:{} },
+      { t:'有硬仗，但我觉得能扛',     d:{L:12,C:-6,W:8} },
+      { t:'多个截止，光想想就烦',     d:{L:22,C:-14,W:-10} },
+    ]},
+  { id:'social', title:'今天有社交安排吗？', hint:'社交是激活，但「被迫社交」会扣分。',
+    opts:[
+      { t:'没有，自己待着',                 d:{} },
+      { t:'有，是我期待的小聚',             d:{S:12,E:5,M:6} },
+      { t:'有，是工作 / 商业应酬',          d:{S:4,E:-6,M:-4,R:4} },
+      { t:'有，是朋友局但我不太想去',       d:{S:-12,E:-8,M:-8,R:6} },
+      { t:'有，是家庭聚会 / 不得不去的局',  d:{S:-10,E:-8,M:-6,R:6} },
+    ]},
+  { id:'body', title:'现在身体和情绪感觉怎么样？', hint:'身体 + 情绪，挂钩躁度与情绪正负。',
+    opts:[
+      { t:'神清气爽，感觉能打十个',     d:{E:16,M:16} },
+      { t:'平静，没什么波动',           d:{E:4,M:6} },
+      { t:'身体累，但情绪还行',         d:{E:-10,M:4} },
+      { t:'身体还行，但情绪烦躁',       d:{E:-4,M:-14,R:16} },
+      { t:'身体累，情绪也低落',         d:{E:-12,M:-16} },
+      { t:'亢奋，但有点控制不住',       d:{E:8,M:-8,R:14} },
+    ]},
+  { id:'plan', title:'今天你更想怎么过？', hint:'出动意愿 + 掌控 + 躁度，咸淡的核心落点。',
+    opts:[
+      { t:'彻底躺，谁也别找我',       d:{W:-18,C:-6} },
+      { t:'随缘，走到哪算哪',         d:{W:-6,C:-2} },
+      { t:'按计划走，该干嘛干嘛',     d:{W:8,C:6} },
+      { t:'冲刺，想把事干掉',         d:{W:16,C:10} },
+      { t:'想做点什么，但静不下来',   d:{W:6,C:-8,R:14} },
+      { t:'想找点刺激，容易上头',     d:{W:10,C:-4,R:12} },
+    ]},
+];
+
+// 条件追问：核心 5 题之后按触发条件补问，按优先级取前 3 道（总题量 5 + 0~3 道）。
+// 优先级：1 睡眠 → 2 情绪(Q4) → 3 意愿(Q5) → 4 工作(Q2) → 5 社交(Q3)
+const FOLLOWUPS = [
+  { id:'f_sleep', pri:1, cond:a=>{const s=a.find(x=>x.id==='sleep'); return s&&(s.opt===2||s.opt===3);},
+    title:'现在的感觉更接近哪种？', hint:'睡眠这题你选了睡不踏实 / 几乎没睡。',
+    opts:[
+      { t:'困，脑子转不动',     d:{E:-8,R:-6} },
+      { t:'炸，看什么都不顺眼', d:{R:12,M:-6} },
+      { t:'又困又炸',           d:{E:-6,R:8} },
+    ]},
+  { id:'f_q4_irrit', pri:2, cond:a=>{const x=a.find(q=>q.id==='body'); return x&&x.opt===3;},
+    title:'烦躁主要冲着谁？', hint:'',
+    opts:[
+      { t:'冲别人，觉得别人不靠谱', d:{R:6,S:-4} },
+      { t:'冲事情，怎么都做不完',   d:{R:4,L:4} },
+      { t:'冲自己，觉得自己不行',   d:{R:2,M:-8,C:-6} },
+    ]},
+  { id:'f_q4_high', pri:2, cond:a=>{const x=a.find(q=>q.id==='body'); return x&&x.opt===5;},
+    title:'这种收不住更像？', hint:'',
+    opts:[
+      { t:'想找人吵架 / 怼人',      d:{R:6,S:-4} },
+      { t:'想花钱 / 下单 / 冲动消费', d:{R:4,C:-4} },
+      { t:'想运动 / 发泄 / 坐不住',  d:{E:4,R:-2} },
+      { t:'说不清，就是静不下来',   d:{R:4,C:-4} },
+    ]},
+  { id:'f_q4_low', pri:2, cond:a=>{const x=a.find(q=>q.id==='body'); return x&&x.opt===4;},
+    title:'低落有具体原因吗？', hint:'',
+    opts:[
+      { t:'有，某件事让我很难受',     d:{M:-4} },
+      { t:'没有，就是突然提不起劲',   d:{M:-6,C:-4} },
+      { t:'说不上来，反正就是丧',     d:{M:-4,R:2} },
+    ]},
+  { id:'f_q5_lie', pri:3, cond:a=>{const x=a.find(q=>q.id==='plan'); return x&&x.opt===0;},
+    title:'这个「躺」更像是？', hint:'',
+    opts:[
+      { t:'主动躺，我值得休息',     d:{C:6} },
+      { t:'被动躺，实在没劲了',     d:{E:-6,C:-6} },
+      { t:'逃避躺，有事不想面对',   d:{C:-8,W:-4} },
+    ]},
+  { id:'f_q5_restless', pri:3, cond:a=>{const x=a.find(q=>q.id==='plan'); return x&&x.opt===4;},
+    title:'这种静不下来更像？', hint:'',
+    opts:[
+      { t:'想做事，但不知道从哪开始', d:{C:-6,W:4} },
+      { t:'想做事，但每件都做不下去', d:{C:-8,R:4} },
+      { t:'不想做事，但闲下来又难受', d:{W:-4,R:6} },
+    ]},
+  { id:'f_q5_thrill', pri:3, cond:a=>{const x=a.find(q=>q.id==='plan'); return x&&x.opt===5;},
+    title:'最容易在哪方面上头？', hint:'',
+    opts:[
+      { t:'消费 / 下单 / 剁手',    d:{C:-4,R:4} },
+      { t:'吵架 / 怼人 / 抬杠',    d:{S:-4,R:6} },
+      { t:'刷手机 / 停不下来',     d:{C:-6,E:-4} },
+      { t:'冒险 / 冲动决定',       d:{C:-8,R:4} },
+    ]},
+  { id:'f_work', pri:4, cond:a=>{const x=a.find(q=>q.id==='work'); return x&&x.opt===4;},
+    title:'哪个最让你头皮发麻？', hint:'',
+    opts:[
+      { t:'事情太多，不知道先做哪个', d:{L:4,C:-4} },
+      { t:'有一件特别难，一直拖着',   d:{L:2,W:-6} },
+      { t:'不是事多，是有人添乱',     d:{R:10,M:-6} },
+    ]},
+  { id:'f_social_biz', pri:5, cond:a=>{const x=a.find(q=>q.id==='social'); return x&&x.opt===2;},
+    title:'这场应酬更接近哪种？', hint:'',
+    opts:[
+      { t:'陪客户 / 领导，得端着',    d:{S:-4,R:6,M:-4} },
+      { t:'同事团建，走个过场',        d:{S:-2,E:-4} },
+      { t:'行业活动，得社交拓人脉',    d:{S:-2,W:4} },
+      { t:'说不清，反正就是得去',      d:{S:-4,E:-4} },
+    ]},
+  { id:'f_social_unwant', pri:5, cond:a=>{const x=a.find(q=>q.id==='social'); return x&&(x.opt===3||x.opt===4);},
+    title:'不想去的原因更接近？', hint:'',
+    opts:[
+      { t:'怕冷场，要一直找话聊',     d:{S:-6,R:4} },
+      { t:'怕耗电，去了回来就废',     d:{E:-6,S:-4} },
+      { t:'不想见某个人',             d:{R:10,M:-8} },
+      { t:'纯粹没精力，谁都不想见',   d:{E:-8,W:-4} },
+      { t:'去了也是应付，没意思',     d:{M:-4,W:-4} },
+    ]},
+];
+
+/* ---------- ③ 文案池 ---------- */
+const COPY = {
+  b0v0:{emoji:'☁️',name:'低电量乌云',diag:['今天你像一块快没电的云，挂在那儿不想动。','不是不想好，是暂时充不进电——允许自己飘着。']},
+  b0v1:{emoji:'🍡',name:'断电棉花糖',diag:['软乎乎、轻飘飘，今天你是一团断电的棉花糖。','不急着恢复，先这么摊一会儿也挺好。']},
+  b0v2:{emoji:'😌',name:'躺平小天使',diag:['状态满分的「淡」——睡得好、没负担，主动选择放空。','你是今天最会休息的那个人，享受它。']},
+  b1v0:{emoji:'🐱',name:'佛系摆烂猫',diag:['提不起劲，但不焦虑，像只晒太阳的猫。','摆就摆了，别内耗，明天再说。']},
+  b1v1:{emoji:'💧',name:'半糖温吞水',diag:['不咸不淡，温温吞吞，今天走的是「存在但低调」路线。','稳稳当当，也是一种本事。']},
+  b1v2:{emoji:'🫧',name:'微醺奶油泡',diag:['有点小开心，但不想太用力，像奶油泡轻轻浮着。','保持这种轻盈，别让谁把你戳破。']},
+  b2v0:{emoji:'🧨',name:'燥咸火药桶',diag:['事情不少、情绪偏负，你现在是「一点就着」的燥咸。','先拆引线再干活，今天宜独处少辩。']},
+  b2v1:{emoji:'🐟',name:'咸鱼翻身组',diag:['有劲但情绪中性，像一条准备翻身的咸鱼。','方向对了就能翻，别在泥里空耗。']},
+  b2v2:{emoji:'⚡',name:'清咸元气弹',diag:['精神饱满、情绪在线，你是今天最「清咸」的那颗元气弹。','趁状态好，把硬骨头啃了。']},
+  b3v0:{emoji:'🌋',name:'炸毛火山口',diag:['满格激活却满格负向，你是随时喷发的火山口。','今天的核心是「别喷到自己人」，先泄压。']},
+  b3v1:{emoji:'👑',name:'高压咸鱼王',diag:['负荷拉满但情绪压得住，你是顶着高压的咸鱼王。','王者归王者，记得给自己留个出气口。']},
+  b3v2:{emoji:'🔥',name:'超级咸战神',diag:['满电、满意愿、满掌控，今天你就是超级咸战神。','去冲，但别透支明天的电量。']},
+  maodun:{emoji:'🌀',name:'矛盾咸·内爆型',diag:['你处在矛盾里：能量很高却抓不住方向，或很炸却压着不爆。','先别急着做事，把这根拧着的弦理顺。']},
+};
+const YI = {
+  b0v0:['听轻音乐发呆','提前睡觉'], b0v1:['热敷眼睛','看一部老电影'], b0v2:['赖床到自然醒','散步晒太阳'],
+  b1v0:['随手整理桌面','撸猫/云吸猫'], b1v1:['泡杯热茶','机械性小事'], b1v2:['约人浅聊','买束花'],
+  b2v0:['把任务写下来','独处降噪'], b2v1:['列优先级','先做一件小事'], b2v2:['冲硬骨头任务','主动约人'],
+  b3v0:['剧烈运动泄压','远离杠精'], b3v1:['定时强制休息','授权给别人'], b3v2:['挑战高难目标','公开立 flag'],
+  maodun:['先写下来再决定','做一件纯手工小事'],
+};
+const JI = {
+  b0v0:['硬扛高强度','喝第三杯咖啡'], b0v1:['做重大决定','熬夜'], b0v2:['过度安排','亏待自己'],
+  b1v0:['自我审判','接新活儿'], b1v1:['冲动消费','钻牛角尖'], b1v2:['憋着不说','过度承诺'],
+  b2v0:['和人争辩','憋着火干活'], b2v1:['同时开太多头','假装在状态'], b2v2:['透支式冲刺','忽略喝水'],
+  b3v0:['翻旧账','开车路怒'], b3v1:['一个人死扛','跳过午饭'], b3v2:['连续作战不歇','替别人背锅'],
+  maodun:['在情绪里做大事','强迫自己立刻想通'],
+};
+// 幸运物池（受控随机抽取）
+const LUCKY = ['颈枕','淡盐水','灰色','降噪耳机','薄荷糖','保温杯','深蓝色','眼罩','柠檬水','白色','帆布包','小番茄','米色','围巾','热牛奶','墨绿色','便签纸','无糖口香糖','浅蓝色','帽子','黑咖啡','橙色','耳机','薄荷绿','巧克力','拖鞋','淡紫色','润唇膏','红枣茶','藏青色','小毯子','苏打水','卡其色','手套','蜂蜜水','浅灰色','靠垫','燕麦','粉色','雨伞'];
+// 彩蛋池（受控随机 + 同天同答结果一致）
+const EGG = ['今天适合听一首老歌。','今天如果遇到穿红色衣服的人，会有好事。','今天不适合在深夜回消息。','今天适合把最难的事放在上午。','今天可以给自己买一杯平时不喝的饮料。','今天适合走一条没走过的路回家。','今天如果下雨，就当是天空在帮你降躁。','今天不适合做重大决定，适合做小决定。','今天适合把手机调成静音一小时。','今天适合整理桌面，不是整理人生。','今天如果想吃甜食，就吃，别愧疚。','今天适合给一个很久没联系的人点个赞。','今天适合早睡，不是口号，是任务。','今天适合把“算了”换成“下次再说”。','今天适合做一件 5 分钟就能完成的小事。','今天如果感到烦躁，就去洗把脸。','今天适合听白噪音，不适合听人吵架。','今天适合把待办清单砍掉一半。','今天适合对自己说：你已经做得够多了。','今天适合什么都不做，就发会儿呆。'];
+
+// 带日期的评价文案：仅有节假日语境（kind）或周一 / 周五 / 周六 / 周日才触发，普通周二三四不触发。
+// 模板占位：{n} = 日期名（如「国庆最后一天」），{name} = 类型名（如「断电棉花糖」）。
+const DATE_FLAVOR = {
+  pre:[
+    '{n}，心早就飞了还测出{name}？正常，今天本来就不该是干活的状态。',
+    '都{n}了，{name}说明你连假前的兴奋都懒得装，真实。',
+    '{n}还坐得住测出{name}，明天放假记得把状态调回咸一点。',
+  ],
+  holiday:[
+    '正处在{n}里，{name}的节奏刚好，别被「别人都在玩」带偏。',
+    '{n}测出{name}，放假就该有放假的样子，跟着自己的状态走。',
+    '难得的{n}，{name}也挺好，少点安排多点随意。',
+  ],
+  lastday:[
+    '今天是{n}，测出{name}太合理了——假期余额清零前，摆烂或收心都算数。',
+    '{n}还测得出{name}，说明你已经在悄悄给假期收尾，明天上班不至于太崩。',
+    '都{n}了，{name}就{name}吧，今晚好好睡，明天才接得住开工。',
+  ],
+  post:[
+    '{n}，测出{name}太真实了——假放完了人是虚的，今天允许自己慢半拍。',
+    '{n}第一天就{name}，别慌，给身体一天缓冲期，明天会回血。',
+    '刚过完节就{name}，{n}的你值得被原谅，摸鱼也是重启的一部分。',
+  ],
+  makeup:[
+    '{n}，周末被叫来上班还测出{name}，这班上的情绪价值为负。',
+    '{n}还测出{name}，建议今天一切从简，把能量留给真正的休息日。',
+    '大周末的{n}，{name}是你对调休最无声的抗议。',
+  ],
+  '周一':[
+    '周一测出{name}，正常，刚熬过周末谁有劲啊，今天慢启动不丢人。',
+    '{name}配上周一，绝配——一周刚开始，先让自己顺过来。',
+    '周一就{name}？别急，周一本来就是用来适应的，咸淡都不必硬撑。',
+  ],
+  '周五':[
+    '周五测出{name}，懂的都懂，心已经下班了还坐在这。',
+    '{name}的周五最舒服——横竖明天放假，今天怎么着都行。',
+    '周五+{name}，今天宜划水，把尾巴收收就能拥抱周末了。',
+  ],
+  '周六':[
+    '周六测出{name}，多好，反正不用上班，淡就淡着，咸就撒欢。',
+    '{name}的周六，没有闹钟的束缚，状态全凭自己高兴。',
+    '周六还来测，说明你{name}但闲不住？今天怎么舒服怎么来。',
+  ],
+  '周日':[
+    '周日测出{name}，今晚记得收收心，明天又要上岗了。',
+    '{name}的周日，且淡且珍惜，毕竟明天又是打工人的轮回。',
+    '周日的{name}有点危险——睡前把周一的自己哄好。',
+  ],
+};
+
+/* ---------- ④ 计算 ---------- */
+function clamp(v,a,b){return Math.max(a,Math.min(b,v));}
+function dimsFromAnswers(ans){
+  const d={...BASE};
+  ans.forEach(a=>{ for(const k in a.d){ d[k]=(d[k]||0)+a.d[k]; } });
+  for(const k in d){ d[k] = (k==='M')? clamp(d[k],-100,100) : clamp(d[k],0,100); }
+  return d;
+}
+function saltOf(dims,datePrior){
+  let A=0; for(const k in WEIGHT_S){ A += WEIGHT_S[k]*(dims[k]??0); }
+  let s = 0.7*A + 0.3*datePrior;
+  s += Math.max(0, dims.R - 80) * 1.0;   // 炸放大器：躁度极高 → 额外推咸（炸 = 过度唤醒）
+  return clamp(s, 0, 100);
+}
+function valOf(dims){
+  let V=0; for(const k in WEIGHT_V){ V += WEIGHT_V[k]*(dims[k]??0); }
+  return clamp(V,-100,100);
+}
+function typeOf(salt,val,dims){
+  // 矛盾咸：高能量却完全失控（心累内爆）这种罕见矛盾
+  if(dims.E>=70 && dims.C<=30) return 'maodun';
+  const sb = salt<49?0 : salt<58?1 : salt<67?2 : 3;
+  const vb = val<-30?0 : val<=30?1 : 2;
+  return `b${sb}v${vb}`;
+}
+function dateContext(){
+  const now=new Date();
+  const y=now.getFullYear();
+  const md=`${String(now.getMonth()+1).padStart(2,'0')}-${String(now.getDate()).padStart(2,'0')}`;
+  const sp=SPECIAL[y]? (SPECIAL[y][md]||null) : null;
+  const prior = sp? sp.s : (DATE_PRIOR[now.getDay()]??50);
+  return { y, md, prior, kind: sp? sp.kind : null, special: sp? sp.n : null, weekday:['周日','周一','周二','周三','周四','周五','周六'][now.getDay()] };
+}
+// 带日期的评价：节假日相关（kind）或 周一/周五/周六/周日 才给；普通周二三四返回 null
+function dateFlavor(dc, copy, seedStr){
+  let key=null;
+  if(dc.kind) key=dc.kind;
+  else if(['周一','周五','周六','周日'].includes(dc.weekday)) key=dc.weekday;
+  else return null;
+  const pool=DATE_FLAVOR[key];
+  if(!pool) return null;
+  const rand=lcg(hashCode(seedStr+key));
+  const tpl=pool[Math.floor(rand()*pool.length)];
+  return tpl.replace(/\{n\}/g, dc.special||'').replace(/\{name\}/g, copy.name);
+}
+// 受控随机：同一答案 + 同一天 → 同一结果，可复现
+function hashCode(str){let h=2166136261;for(let i=0;i<str.length;i++){h^=str.charCodeAt(i);h=Math.imul(h,16777619);}return h>>>0;}
+function lcg(seed){let s=seed>>>0;return ()=>{s=(Math.imul(s,1664525)+1013904223)>>>0;return s/4294967296;};}
+function pick(rand,arr){return arr[Math.floor(rand()*arr.length)];}
+
+// 文案生成（预留接口：未来可在此接 LLM 做动态生成）
+function generateCopy(typeKey, seedStr){
+  const c=COPY[typeKey];
+  const rand=lcg(hashCode(seedStr));
+  return {
+    emoji:c.emoji, name:c.name,
+    diag: pick(rand,c.diag),
+    yi: YI[typeKey],
+    ji: JI[typeKey],
+    lucky: pick(rand,LUCKY),
+    egg: pick(rand,EGG),
+  };
+}
+
+/* ---------- ⑤ 状态机 ---------- */
+const app=document.getElementById('app');
+let qIndex=0, answers=[], fuQueue=[], fuIndex=0, fuBuilt=false, lastResult=null;
+
+// 品牌徽标（形象图）。加载失败时回退到内联手绘派图标。
+const LOGO_SRC='assets/logo.png';
+let logoImg=null, logoReady=false;
+function ensureLogo(cb){
+  if(logoReady){ cb(); return; }
+  if(!logoImg){
+    logoImg=new Image();
+    logoImg.onload=()=>{ logoReady=true; cb(); };
+    logoImg.onerror=()=>{ cb(); };
+    logoImg.src=LOGO_SRC;
+  }else{
+    logoImg.addEventListener('load',cb,{once:true});
+    logoImg.addEventListener('error',cb,{once:true});
+  }
+}
+function logoTag(cls){
+  return `<img class="${cls}" src="${LOGO_SRC}" alt="咸淡超人" onerror="this.style.display='none'">`;
+}
+
+function renderWelcome(){
+  app.innerHTML=`
+    <div class="logo">${logoTag('logo-img')}<div><h1>咸淡超人</h1></div></div>
+    <div class="sub">今日你是「咸人」还是「淡人」？答 5 道核心题，部分情况会加问 1–2 道补充题，给你一张今日状态卡。</div>
+    <div class="btn-wrap"><button class="btn" id="start">开始测评 →</button></div>
+    <div class="foot">咸 = 精神饱满 / 想做事 / 甚至有点炸；淡 = 低能量 / 想发呆 / 摆烂。</div>`;
+  document.getElementById('start').onclick=()=>{ qIndex=0; answers=[]; fuQueue=[]; fuIndex=0; fuBuilt=false; renderFlow(); };
+}
+
+function buildFollowups(){
+  // 按触发条件筛选 → 按优先级排序 → 取前 3 道（总题量 5 核心 + 0–3 追问）
+  fuQueue = FOLLOWUPS.filter(f=>f.cond(answers)).sort((a,b)=>a.pri-b.pri).slice(0,3);
+  fuBuilt = true; fuIndex = 0;
+}
+function renderFlow(){
+  if(qIndex < QUESTIONS.length){ renderQuestion(QUESTIONS[qIndex], false); return; }
+  if(!fuBuilt) buildFollowups();
+  if(fuIndex < fuQueue.length){ renderQuestion(fuQueue[fuIndex], true); return; }
+  renderResult();
+}
+function renderQuestion(q, isFu){
+  const total = QUESTIONS.length + (fuBuilt ? fuQueue.length : 0);
+  const cur = answers.length + 1;
+  const pct = Math.round((answers.length / total) * 100);
+  const label = isFu ? '（补充）' : '';
+  app.innerHTML=`
+    <div class="progress"><i style="width:${pct}%"></i></div>
+    <div class="q-title">${q.title}</div>
+    <div class="q-hint">${q.hint||''}</div>
+    <div class="opts">${q.opts.map((o,i)=>`<button class="opt" data-i="${i}">${o.t}</button>`).join('')}</div>
+    <div class="foot">第 ${cur} / ${total} 题${label}</div>`;
+  app.querySelectorAll('.opt').forEach(b=>{
+    b.onclick=()=>{
+      answers.push({id:q.id,opt:+b.dataset.i,d:q.opts[+b.dataset.i].d});
+      if(isFu) fuIndex++; else qIndex++;
+      renderFlow();
+    };
+  });
+}
+function renderResult(){
+  const dc=dateContext();
+  const dims=dimsFromAnswers(answers);
+  const salt=saltOf(dims,dc.prior);
+  const val=valOf(dims);
+  const key=typeOf(salt,val,dims);
+  const copy=generateCopy(key, dc.md+JSON.stringify(answers));
+  const flavor = dateFlavor(dc, copy, dc.md+JSON.stringify(answers));
+  lastResult={dims,salt,val,key,dc,copy,flavor};
+  const bandName=COPY[key].name;
+  const valLabel = val<-30?'负向 😣': val<=30?'中性 😐':'正向 😊';
+  const todayStr = `${dc.weekday}${dc.special?('·'+dc.special):''}`;
+  app.innerHTML=`
+    <div class="logo">${logoTag('logo-img')}<div><h1>今日状态卡</h1></div></div>
+    <div class="sub">${todayStr} · 先验咸度 ${dc.prior}</div>
+    <div class="type-emoji">${copy.emoji}</div>
+    <div class="type-name">${copy.name}</div>
+    <div class="type-band">你是「${bandName}」</div>
+
+    <div class="meter">
+      <div class="lab"><span>淡人</span><span>咸度 ${Math.round(salt)}</span><span>咸人</span></div>
+      <div class="bar"><i style="width:${salt}%"></i><span class="mid"></span></div>
+    </div>
+    <div class="meta">情绪正负：<b>${valLabel}</b>（${Math.round(val)}）</div>
+
+    <div class="diag">${copy.diag}</div>
+    ${flavor?`<div class="date-flavor">📅 ${flavor}</div>`:''}
+
+    <div class="grid2">
+      <div class="box yi"><h3>今日宜</h3><ul><li>${copy.yi[0]}</li><li>${copy.yi[1]}</li></ul></div>
+      <div class="box ji"><h3>今日忌</h3><ul><li>${copy.ji[0]}</li><li>${copy.ji[1]}</li></ul></div>
+    </div>
+    <div class="meta">🍀 幸运物：<b>${copy.lucky}</b></div>
+    <div class="egg">✨ 彩蛋：${copy.egg}</div>
+
+    <div class="row">
+      <button class="btn ghost" id="again">重新测评</button>
+      <button class="btn" id="share">生成分享卡</button>
+    </div>`;
+  document.getElementById('again').onclick=renderWelcome;
+  document.getElementById('share').onclick=makeShareCard;
+}
+// —— 分享卡：Canvas 生成图片（零依赖，可保存）——
+function wrapText(ctx, text, cx, y, maxW, lh){
+  const chars=(text||'').split('');
+  let line='', yy=y;
+  for(const ch of chars){
+    if(ctx.measureText(line+ch).width>maxW && line){ ctx.fillText(line,cx,yy); line=ch; yy+=lh; }
+    else line+=ch;
+  }
+  if(line) ctx.fillText(line,cx,yy);
+}
+function drawBadge(x,cx,cy,r){
+  x.save();
+  if(logoReady && logoImg && logoImg.naturalWidth){
+    // 直接展示形象图，不加边框、不裁圆形
+    const w=r*2.1, h=logoImg.naturalHeight/logoImg.naturalWidth*w;
+    x.drawImage(logoImg, cx-w/2, cy-h/2, w, h);
+  }else{
+    x.fillStyle='#E0A458'; x.beginPath(); x.arc(cx,cy,r,0,Math.PI*2); x.fill();
+    x.fillStyle='#E8482B'; x.beginPath(); x.moveTo(cx,cy); x.arc(cx,cy,r,-Math.PI/2,0); x.closePath(); x.fill();
+  }
+  x.restore();
+}
+function makeShareCard(){
+  const r=lastResult; if(!r) return;
+  ensureLogo(()=>{
+    const W=1080, pad=60, contentW=W-pad*2, H=1560;
+    const cv=document.createElement('canvas'); cv.width=W; cv.height=H;
+    const x=cv.getContext('2d');
+    const cream='#FFF7EC', ink='#2A2118', red='#E8482B', gold='#E0A458', sub='#7a5a2a';
+    const font=(px,weight)=>`${weight||''} ${px}px "PingFang SC","Microsoft YaHei","Hiragino Sans GB",sans-serif`;
+    x.fillStyle=cream; x.fillRect(0,0,W,H);
+    x.strokeStyle=ink; x.lineWidth=14; x.strokeRect(20,20,W-40,H-40);
+    // 顶部品牌徽标（形象图 + 品牌名）
+    drawBadge(x, 88, 92, 30);
+    x.fillStyle=ink; x.textBaseline='middle'; x.textAlign='left';
+    x.font=font(34,'bold'); x.fillText('PaiFlow 苹果派', 88+34+26, 92);
+    // 标题 + 日期
+    x.textAlign='center';
+    x.font=font(56,'bold'); x.fillStyle=ink; x.fillText('今日状态卡', W/2, 210);
+    x.font=font(30); x.fillStyle=sub;
+    x.fillText(`${r.dc.weekday}${r.dc.special?'·'+r.dc.special:''} · 先验咸度 ${r.dc.prior}`, W/2, 262);
+    // 大 emoji + 类型名
+    x.font=font(190); x.fillText(r.copy.emoji, W/2, 430);
+    x.font=font(72,'bold'); x.fillStyle=red; x.fillText(r.copy.name, W/2, 575);
+    x.font=font(36); x.fillStyle=ink; x.fillText('你是「'+r.copy.name+'」', W/2, 632);
+    // 咸度条
+    const bx=pad+40, bw=W-pad*2-80, by=700, bh=46;
+    x.fillStyle='#fff'; x.fillRect(bx,by,bw,bh);
+    const g=x.createLinearGradient(bx,0,bx+bw,0); g.addColorStop(0,gold); g.addColorStop(1,red);
+    x.fillStyle=g; x.fillRect(bx,by, bw*(Math.min(100,Math.max(0,r.salt))/100), bh);
+    x.strokeStyle=ink; x.lineWidth=5; x.strokeRect(bx,by,bw,bh);
+    x.font=font(26); x.fillStyle=ink;
+    x.textAlign='left'; x.fillText('淡人', bx, by+bh+36);
+    x.textAlign='center'; x.fillText('咸度 '+Math.round(r.salt), W/2, by+bh+36);
+    x.textAlign='right'; x.fillText('咸人', bx+bw, by+bh+36);
+    // 情绪正负
+    x.textAlign='center'; x.font=font(34); x.fillStyle=ink;
+    const v=r.val, vl=v<-30?'负向 😣':v<=30?'中性 😐':'正向 😊';
+    x.fillText('情绪正负：'+vl+'（'+Math.round(v)+'）', W/2, by+bh+94);
+    // 日期语境文案（若有）
+    if(r.flavor){ x.font=font(30); x.fillStyle=sub; x.textAlign='center'; wrapText(x,'📅 '+r.flavor, W/2, by+bh+150, W-pad*2-40, 46); }
+    // 今日宜 / 今日忌
+    const boxY=1040, boxH=240, boxW=Math.round((contentW-20)/2);
+    const drawBox=(bx2,title,items,tc)=>{
+      x.fillStyle='#fff'; x.fillRect(bx2,boxY,boxW,boxH);
+      x.strokeStyle=ink; x.lineWidth=5; x.strokeRect(bx2,boxY,boxW,boxH);
+      x.textAlign='left'; x.textBaseline='middle';
+      x.font=font(34,'bold'); x.fillStyle=tc; x.fillText(title, bx2+24, boxY+44);
+      x.font=font(30); x.fillStyle=ink;
+      let iy=boxY+104;
+      for(const it of items){ x.fillText('· '+it, bx2+24, iy); iy+=54; }
+    };
+    drawBox(pad, '今日宜', r.copy.yi, gold);
+    drawBox(pad+boxW+20, '今日忌', r.copy.ji, red);
+    // 幸运物
+    x.textAlign='left'; x.textBaseline='middle'; x.font=font(32); x.fillStyle=ink;
+    x.fillText('🍀 幸运物：'+r.copy.lucky, pad, 1345);
+    // 彩蛋（与幸运物同款，无外框）
+    x.font=font(32); x.fillStyle=ink;
+    const pre='✨ 彩蛋：', preW=x.measureText(pre).width;
+    x.fillText(pre, pad, 1415);
+    let line='', yy=1415, first=true;
+    for(const ch of r.copy.egg){
+      const test=line+ch;
+      if(x.measureText(test).width > (first?contentW-preW:contentW) && line){
+        x.fillText(line, first?pad+preW:pad, yy); yy+=46; line=ch; first=false;
+      }else line=test;
+    }
+    if(line) x.fillText(line, first?pad+preW:pad, yy);
+    // 页脚
+    x.textAlign='center'; x.font=font(26); x.fillStyle=ink;
+    x.fillText('PaiFlow 苹果派 · paiflow.pages.dev', W/2, H-54);
+    showCardModal(cv);
+  });
+}
+function showCardModal(cv){
+  let m=document.getElementById('cardModal');
+  if(!m){
+    m=document.createElement('div'); m.id='cardModal'; m.className='modal';
+    m.innerHTML='<div class="modal-bg"></div><div class="modal-card"><div class="card-img"></div><div class="row" style="justify-content:center"><button class="btn" id="cardSave">保存图片</button><button class="btn ghost" id="cardClose">关闭</button></div></div>';
+    document.body.appendChild(m);
+    m.querySelector('.modal-bg').onclick=()=>m.classList.remove('show');
+    m.querySelector('#cardClose').onclick=()=>m.classList.remove('show');
+  }
+  m.querySelector('#cardSave').onclick=()=>{ const a=document.createElement('a'); a.download='咸淡超人-今日状态卡.png'; a.href=cv.toDataURL('image/png'); a.click(); };
+  const box=m.querySelector('.card-img'); box.innerHTML=''; box.appendChild(cv);
+  cv.style.width='100%'; cv.style.height='auto'; cv.style.borderRadius='12px';
+  m.classList.add('show');
+}
+renderWelcome();
+</script>
+</body>
+</html>
